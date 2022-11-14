@@ -1,0 +1,106 @@
+---
+title: "Population trends Norway"
+author: "Orlando Olaya Bucaro"
+format: revealjs
+---
+
+## Introduction
+
+- How does the current population trends look like by municipality in Norway?
+- Where does the population increase and decrease?
+
+:::: {.columns}
+
+::: {.column width="10%"}
+
+:::
+
+::: {.column width="25%"}
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sustainable_Development_Goal_3.png/900px-Sustainable_Development_Goal_3.png)
+::::
+::: {.column width="25%"}
+![](https://upload.wikimedia.org/wikipedia/commons/b/bc/Sustainable_Development_Goal_5.png)
+::::
+::: {.column width="25%"}
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Sustainable_Development_Goal_11.png/900px-Sustainable_Development_Goal_11.png)
+::::
+
+::: {.column width="25%"}
+
+:::
+
+::::
+
+## Data
+
+* Norwegian registry data - microdata.no
+  * Yearly deaths, births and population by municipality
+* Geographic data for municipalities - Kartverket
+
+### Further challenges
+
+- Analyze additional years to show historical trend
+- Include migration rates my municipality?
+
+## Results
+
+```{python}
+# Import packages
+import pandas as pd
+import geopandas
+import folium
+from pathlib import Path
+
+## Define script parameters
+year = 2020
+country = "norway"
+## Paths
+directory_path = Path("..")
+
+datasets_path = (
+    directory_path
+    / "data"
+)
+
+processed_data_path = (
+    datasets_path
+    / "processed"  # data type
+)
+
+## Import data
+fert = geopandas.read_file(processed_data_path /
+                           f"{country}_fertility.geojson")
+mort = geopandas.read_file(processed_data_path /
+                           f"{country}_mortality.geojson")
+## Calclate fertlity rate
+fert["Fert_rate"] = round(fert["Births"] / fert["Pop_women"] * 1000, 2)
+
+## Calculate mortalty rate
+mort["Mort_rate"] = round(mort["Deaths"] / mort["Midyear_pop"] * 1000, 2)
+
+ ## Visualize on map
+
+m = mort.explore(
+     column="Mort_rate",
+     tooltip=["Municipality", "Mort_rate"],
+     popup=True,
+     tiles="CartoDB positron",
+     cmap="Set1",
+     style_kwds=dict(color="black"),
+     name="Mortality Rate",
+     zoom_start=5
+    )
+
+fert.explore(
+     m=m,
+     column="Fert_rate",
+     tooltip=["Municipality", "Fert_rate"],
+     popup=True,
+     tooltip_kwds=dict(labels=False),
+     name="Fertility Rate"
+)
+
+folium.LayerControl().add_to(m)  # use folium to add layer control
+
+m  # show map
+```

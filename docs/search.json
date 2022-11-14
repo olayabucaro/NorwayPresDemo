@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "pres.html#introduction",
+    "href": "pres.html#introduction",
+    "title": "Population trends Norway",
+    "section": "Introduction",
+    "text": "Introduction\n\nHow does the current population trends look like by municipality in Norway?\nWhere does the population increase and decrease?"
+  },
+  {
+    "objectID": "pres.html#data",
+    "href": "pres.html#data",
+    "title": "Population trends Norway",
+    "section": "Data",
+    "text": "Data\n\nNorwegian registry data - microdata.no\n\nYearly deaths, births and population by municipality\n\nGeographic data for municipalities - Kartverket\n\nFurther challenges\n\nAnalyze additional years to show historical trend\nInclude migration rates my municipality?"
+  },
+  {
+    "objectID": "pres.html#results",
+    "href": "pres.html#results",
+    "title": "Population trends Norway",
+    "section": "Results",
+    "text": "Results\n\n\n\nMake this Notebook Trusted to load map: File -> Trust Notebook"
+  }
+]
